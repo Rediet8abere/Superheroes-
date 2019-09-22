@@ -35,11 +35,12 @@ class Hero:
           starting_health: Integer
           current_health: Integer
           '''
-        self.abilities = []
-        self.armors = []
+
         self.name = name
         self.starting_health = starting_health
         self.current_health = starting_health
+        self.abilities = []
+        self.armors = []
 
     def add_ability(self, ability):
         ''' Add ability to abilities list '''
@@ -76,6 +77,7 @@ class Hero:
         '''Updates self.current_health to reflect the damage minus the defense.'''
         damage = damage - self.defend(damage)
         self.current_health -= damage
+        # return self.current_health
         # self.current_health -= self.defend(damage)
         # return self.current_health
 
@@ -86,15 +88,48 @@ class Hero:
         else:
             return True
         # return self.current_health
+    def fight(self, opponent):
+        ''' Current Hero will take turns fighting the opponent hero passed in.'''
+        # TODO: Fight each hero until a victor emerges.
+        # Print the victor's name to the screen.
+        print(self.attack())
+        print(opponent.attack())
+        print("self object ", self)
+        print("opponent object ", opponent)
+        while self.current_health > 0 and opponent.current_health > 0:
+            if self.attack() > 0 or opponent.attack() > 0:
+                # generates a random attacker to be fair
+                random_attacker = random.choice([self, opponent])
+                print("random_attacker ", random_attacker)
+                #sets random defender based on random attacker
+                if random_attacker == self:
+                    random_defender = opponent
+                    print("random_defender ", random_defender)
+                else:
+                    random_defender = self
+                    print("random_defender ", random_defender)
+                fight = random_attacker.take_damage(random_defender.attack())
+                print(self.is_alive(), opponent.is_alive())
+                # checks if either one of them are alive and sets them as a winner
+                if self.is_alive():
+                    print(self.name, "won!")
+                else:
+                    print(opponent.name, "won!")
+            else:
+                print("Draw")
+
 
 
 
 if __name__ == "__main__":
-    # If you run this file from the terminal
-    # this block is executed.
-
-    hero = Hero("Grace Hopper", 200)
-    hero.take_damage(150)
-    print(hero.is_alive())
-    hero.take_damage(15000)
-    print(hero.is_alive())
+    hero1 = Hero("Wonder Woman")
+    hero2 = Hero("Dumbledore")
+    ability1 = Ability("Super Speed", 300)
+    ability2 = Ability("Super Eyes", 130)
+    ability3 = Ability("Wizard Wand", 80)
+    ability4 = Ability("Wizard Beard", 20)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    hero1.fight(hero2)
