@@ -61,25 +61,24 @@ class Hero:
       '''
       self.armors.append(armor)
 
-    def defend(self, damage_amt):
+    def defend(self, damage_amt=0):
       '''Runs `block` method on each armor.
           Returns sum of all blocks
       '''
-
       total_defend = 0
       for armor in self.armors:
-          total_defend += armor.block()
-      return total_defend
+          block = int(armor.block())
+          total_defend += block
+      return abs(total_defend - damage_amt)
 
 
     def take_damage(self, damage):
 
         '''Updates self.current_health to reflect the damage minus the defense.'''
-        damage = damage - self.defend(damage)
-        self.current_health -= damage
-        # return self.current_health
-        # self.current_health -= self.defend(damage)
-        # return self.current_health
+        # damage = damage - self.defend(damage)
+        # self.current_health -= damage
+        take_damage = self.defend(damage)
+        self.current_health -= take_damage
 
     def is_alive(self):
         '''Return True or False depending on whether the hero is alive or not.'''
@@ -87,7 +86,7 @@ class Hero:
             return False
         else:
             return True
-        # return self.current_health
+
     def fight(self, opponent):
         ''' Current Hero will take turns fighting the opponent hero passed in.'''
         # TODO: Fight each hero until a victor emerges.
@@ -117,19 +116,80 @@ class Hero:
                     print(opponent.name, "won!")
             else:
                 print("Draw")
+                break
 
 
+class Weapon(Ability):
+    # def __init__(self, name, attack_strength):
+    #     # Initialize person object with name
+    #     super().__init__(name, attack_strength)
 
+    def attack(self):
+        """  This method returns a random value
+        between one half to the full attack power of the weapon.
+        """
+
+        return random.randint(self.max_damage//2, self.max_damage)
+
+class Team():
+    def __init__(self, name):
+        ''' Initialize your team with its team name'''
+        self.name = name
+        self.heroes = []
+
+    def remove_hero(self, name):
+        '''Remove hero from heroes list. If Hero isn't found return 0. '''
+        # TODO: Implement this method to remove the hero from the list given their name.
+        for hero in self.heroes:
+            self.heroes.remove(hero)
+        return 0
+
+    def view_all_heroes(self):
+        '''Prints out all heroes to the console.'''
+        # TODO: Loop over the list of heroes and print their names to the terminal.
+        for hero in self.heroes:
+            print(hero.name)
+
+    def add_hero(self, hero):
+        '''Add Hero object to self.heroes.'''
+        self.heroes.append(hero)
 
 if __name__ == "__main__":
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    # team1 = Team("Awesome")
+    # team1.remove_hero("spiderman")
+    # print(team1.heroes)
+    # team1.view_all_heroes()
+    # team1.add_hero("wonderwoman")
+    # team1.add_hero("batman")
+    # team1.view_all_heroes()
+    # team1.remove_hero("wonderwoman")
+    # team1.view_all_heroes()
+    # team = Team("One")
+    # jodie = Hero("Jodie Foster")
+    # team.add_hero(jodie)
+    # # assert team.heroes[0].name == "Jodie Foster"
+    # print(team.heroes[0].name)
+    # team.view_all_heroes()
+    # team.remove_hero("Jodie Foster")
+    # team.view_all_heroes()
+    # print(len(team.heroes))
+    team = Team("One")
+    jodie = Hero("Jodie Foster")
+    team.add_hero(jodie)
+
+    athena = Hero("Athena")
+    team.add_hero(athena)
+    team.view_all_heroes()
+    # output_string = capture_console_output(team.view_all_heroes)
+
+#     hero1 = Hero("Wonder Woman")
+#     hero2 = Hero("Dumbledore")
+#     ability1 = Ability("Super Speed", 300)
+#     ability2 = Ability("Super Eyes", 130)
+#     ability3 = Ability("Wizard Wand", 80)
+#     ability4 = Ability("Wizard Beard", 20)
+#     hero1.add_ability(ability1)
+#     hero1.add_ability(ability2)
+#     hero2.add_ability(ability3)
+#     hero2.add_ability(ability4)
+#     hero1.fight(hero2)
