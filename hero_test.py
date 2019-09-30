@@ -16,9 +16,6 @@ def capture_console_output(function_body):
     sys.stdout = sys.__stdout__
     return string_io.getvalue()
 
-# Test Abilities Class
-
-
 def test_ability_instance():
     # Test instantiation without error
     big_strength = superheroes.Ability("Overwhelming Strength", 300)
